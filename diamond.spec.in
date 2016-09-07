@@ -1,0 +1,31 @@
+Summary:       Smart data producer for graphite graphing package
+Name:          diamond
+Version:       @VERSION@
+Release:       0%{?dist}
+Source0:       %{name}-%{version}.tar.gz
+License:       MIT
+Group:         Development/Libraries
+BuildArch:     noarch
+BuildRequires: python
+Requires:      python-configobj
+Url:           https://github.com/ceph/Diamond.git
+
+%description
+Diamond is a python daemon that collects system metrics and publishes them to Graphite (and others). It is capable of collecting cpu, memory, network, i/o, load and disk metrics. Additionally, it features an API for implementing custom collectors for gathering metrics from almost any source.
+
+%prep
+%setup -n %{name}-%{version}
+
+%build
+%{__python} setup.py build
+
+%install
+%{__python} setup.py install -O1 --root=$RPM_BUILD_ROOT --record=INSTALLED_FILES
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+%files -f INSTALLED_FILES
+%defattr(-,root,root)
+
+%changelog
